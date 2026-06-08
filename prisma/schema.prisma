@@ -1,0 +1,128 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  phone     String
+  role      String   @default("RIDER")
+  avatar    String?
+  createdAt DateTime @default(now())
+
+  driver    Driver?
+  rider     Rider?
+  ratingsGiven   Rating[] @relation("ratingsGiven")
+  ratingsReceived Rating[] @relation("ratingsReceived")
+}
+
+model Driver {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id])
+  licenseNumber String
+  vehicleModel  String
+  vehicleColor  String
+  licensePlate  String
+  isAvailable   Boolean  @default(true)
+  currentLat    Float?
+  currentLng    Float?
+  rating        Float    @default(5.0)
+  totalTrips    Int      @default(0)
+  createdAt     DateTime @default(now())
+
+  trips         Trip[]
+  deliveries    Delivery[]
+}
+
+model Rider {
+  id            String  @id @default(cuid())
+  userId        String  @unique
+  user          User    @relation(fields: [userId], references: [id])
+  paymentMethod String?
+  savedLocations String?
+
+  trips         Trip[]
+  deliveries    Delivery[]
+}
+
+model Trip {
+  id            String   @id @default(cuid())
+  riderId       String
+  rider         Rider    @relation(fields: [riderId], references: [id])
+  driverId      String?
+  driver        Driver?  @relation(fields: [driverId], references: [id])
+  pickupLat     Float
+  pickupLng     Float
+  dropoffLat    Float
+  dropoffLng    Float
+  pickupAddress String
+  dropoffAddress String
+  status        String   @default("REQUESTED")
+  fare          Float?
+  distance      Float?
+  duration      Int?
+  startedAt     DateTime?
+  completedAt   DateTime?
+  createdAt     DateTime @default(now())
+
+  payment       Payment?
+  ratings       Rating[]
+}
+
+model Delivery {
+  id              String   @id @default(cuid())
+  senderId        String
+  sender          Rider    @relation(fields: [senderId], references: [id])
+  driverId        String?
+  driver          Driver?  @relation(fields: [driverId], references: [id])
+  pickupLat       Float
+  pickupLng       Float
+  dropoffLat      Float
+  dropoffLng      Float
+  pickupAddress   String
+  dropoffAddress  String
+  parcelDescription String
+  parcelWeight    Float?
+  status          String   @default("REQUESTED")
+  fare            Float?
+  distance        Float?
+  duration        Int?
+  createdAt       DateTime @default(now())
+  completedAt     DateTime?
+
+  payment         Payment?
+}
+
+model Payment {
+  id            String   @id @default(cuid())
+  tripId        String?  @unique
+  trip          Trip?    @relation(fields: [tripId], references: [id])
+  deliveryId    String?  @unique
+  delivery      Delivery? @relation(fields: [deliveryId], references: [id])
+  amount        Float
+  method        String
+  status        String   @default("PENDING")
+  transactionId String?
+  createdAt     DateTime @default(now())
+}
+
+model Rating {
+  id        String   @id @default(cuid())
+  tripId    String
+  trip      Trip     @relation(fields: [tripId], references: [id])
+  raterId   String
+  rater     User     @relation("ratingsGiven", fields: [raterId], references: [id])
+  rateeId   String
+  ratee     User     @relation("ratingsReceived", fields: [rateeId], references: [id])
+  score     Int
+  comment   String?
+  createdAt DateTime @default(now())
+}
