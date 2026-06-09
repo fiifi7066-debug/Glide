@@ -10,13 +10,7 @@ type Tab = "rides" | "deliveries"
 type Filter = "ALL" | "COMPLETED" | "CANCELLED"
 
 export default function HistoryPage() {
-  const {
-    tripHistory,
-    setTripHistory,
-    deliveryHistory,
-    setDeliveryHistory,
-  } = useStore()
-
+  const { tripHistory, setTripHistory, deliveryHistory, setDeliveryHistory } = useStore()
   const [tab, setTab] = useState<Tab>("rides")
   const [filter, setFilter] = useState<Filter>("ALL")
   const [loading, setLoading] = useState(true)
@@ -24,76 +18,35 @@ export default function HistoryPage() {
   const fetchHistory = useCallback(async () => {
     setLoading(true)
     try {
-      const [tripsRes, deliveriesRes] = await Promise.all([
-        fetch("/api/trips/history"),
-        fetch("/api/deliveries/history"),
-      ])
-      if (tripsRes.ok) {
-        const json = await tripsRes.json()
-        setTripHistory(json.data || [])
-      }
-      if (deliveriesRes.ok) {
-        const json = await deliveriesRes.json()
-        setDeliveryHistory(json.data || [])
-      }
-    } catch {
-      // ignore
-    }
+      const [tripsRes, deliveriesRes] = await Promise.all([fetch("/api/trips/history"), fetch("/api/deliveries/history")])
+      if (tripsRes.ok) { const json = await tripsRes.json(); setTripHistory(json.data || []) }
+      if (deliveriesRes.ok) { const json = await deliveriesRes.json(); setDeliveryHistory(json.data || []) }
+    } catch {}
     setLoading(false)
   }, [setTripHistory, setDeliveryHistory])
 
-  useEffect(() => {
-    fetchHistory()
-  }, [fetchHistory])
+  useEffect(() => { fetchHistory() }, [fetchHistory])
 
-  const filteredTrips = tripHistory.filter((t: TripData) => {
-    if (filter === "ALL") return true
-    return t.status === filter
-  })
-
-  const filteredDeliveries = deliveryHistory.filter((d: DeliveryData) => {
-    if (filter === "ALL") return true
-    return d.status === filter
-  })
+  const filteredTrips = tripHistory.filter((t: TripData) => filter === "ALL" || t.status === filter)
+  const filteredDeliveries = deliveryHistory.filter((d: DeliveryData) => filter === "ALL" || d.status === filter)
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-6">
-      <h1 className="text-2xl font-bold text-gray-800 mb-6">History</h1>
+    <div className="max-w-4xl mx-auto px-4 py-6 animate-fade-in">
+      <h1 className="text-2xl font-bold text-white mb-6">History</h1>
 
       <div className="flex gap-2 mb-6">
-        <button
-          onClick={() => setTab("rides")}
-          className={`px-6 py-2.5 rounded-xl text-sm font-medium transition-all ${
-            tab === "rides"
-              ? "bg-primary text-white shadow-lg shadow-primary/25"
-              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-          }`}
-        >
-          Rides
-        </button>
-        <button
-          onClick={() => setTab("deliveries")}
-          className={`px-6 py-2.5 rounded-xl text-sm font-medium transition-all ${
-            tab === "deliveries"
-              ? "bg-primary text-white shadow-lg shadow-primary/25"
-              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-          }`}
-        >
-          Deliveries
-        </button>
+        {(["rides", "deliveries"] as Tab[]).map((t) => (
+          <button key={t} onClick={() => setTab(t)}
+            className={`px-6 py-2.5 rounded-xl text-sm font-medium transition-all ${tab === t ? "bg-blue-600 text-white shadow-lg shadow-blue-500/25" : "bg-dark-card text-gray-400 hover:bg-dark-border"}`}>
+            {t === "rides" ? "Rides" : "Deliveries"}
+          </button>
+        ))}
       </div>
 
       <div className="flex gap-2 mb-6">
         {(["ALL", "COMPLETED", "CANCELLED"] as Filter[]).map((f) => (
-          <button
-            key={f}
-            onClick={() => setFilter(f)}
-            className={`px-4 py-1.5 rounded-full text-xs font-medium transition-all ${
-              filter === f
-                ? "bg-primary/10 text-primary border border-primary/20"
-                : "bg-gray-50 text-gray-500 border border-gray-200 hover:border-gray-300"
-            }`}
-          >
+          <button key={f} onClick={() => setFilter(f)}
+            className={`px-4 py-1.5 rounded-full text-xs font-medium transition-all ${filter === f ? "bg-blue-500/10 text-blue-400 border border-blue-500/20" : "bg-dark-card text-gray-500 border border-dark-border hover:border-gray-600"}`}>
             {f === "ALL" ? "All" : f.charAt(0) + f.slice(1).toLowerCase()}
           </button>
         ))}
@@ -101,49 +54,25 @@ export default function HistoryPage() {
 
       {loading ? (
         <div className="flex justify-center py-12">
-          <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
+          <div className="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full" />
         </div>
       ) : tab === "rides" ? (
         filteredTrips.length > 0 ? (
-          <div className="space-y-4">
-            {filteredTrips.map((trip: TripData) => (
-              <RideCard key={trip.id} trip={trip} showActions={false} />
-            ))}
-          </div>
+          <div className="space-y-4">{filteredTrips.map((trip: TripData) => <RideCard key={trip.id} trip={trip} showActions={false} />)}</div>
         ) : (
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-12 text-center">
-            <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-3xl">&#128663;</span>
-            </div>
-            <h3 className="text-lg font-semibold text-gray-800 mb-1">
-              No rides yet
-            </h3>
-            <p className="text-sm text-gray-500">
-              Your ride history will appear here
-            </p>
+          <div className="glass-card rounded-2xl p-12 text-center">
+            <div className="w-16 h-16 bg-dark-border rounded-full flex items-center justify-center mx-auto mb-4"><span className="text-3xl">&#128663;</span></div>
+            <h3 className="text-lg font-semibold text-white mb-1">No rides yet</h3>
+            <p className="text-sm text-gray-400">Your ride history will appear here</p>
           </div>
         )
       ) : filteredDeliveries.length > 0 ? (
-        <div className="space-y-4">
-          {filteredDeliveries.map((delivery: DeliveryData) => (
-            <DeliveryCard
-              key={delivery.id}
-              delivery={delivery}
-              role="RIDER"
-            />
-          ))}
-        </div>
+        <div className="space-y-4">{filteredDeliveries.map((delivery: DeliveryData) => <DeliveryCard key={delivery.id} delivery={delivery} role="RIDER" />)}</div>
       ) : (
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-12 text-center">
-          <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
-            <span className="text-3xl">&#128230;</span>
-          </div>
-          <h3 className="text-lg font-semibold text-gray-800 mb-1">
-            No deliveries yet
-          </h3>
-          <p className="text-sm text-gray-500">
-            Your delivery history will appear here
-          </p>
+        <div className="glass-card rounded-2xl p-12 text-center">
+          <div className="w-16 h-16 bg-dark-border rounded-full flex items-center justify-center mx-auto mb-4"><span className="text-3xl">&#128230;</span></div>
+          <h3 className="text-lg font-semibold text-white mb-1">No deliveries yet</h3>
+          <p className="text-sm text-gray-400">Your delivery history will appear here</p>
         </div>
       )}
     </div>
