@@ -58,7 +58,7 @@ export default function DriverDashboard() {
           <h1 className="text-2xl font-bold text-white">Driver Dashboard</h1>
           <p className="text-gray-400 text-sm">Welcome, {user?.name || "Driver"}</p>
         </div>
-        <button onClick={toggleAvailability} className={`flex items-center gap-2 px-6 py-2.5 rounded-full font-medium text-sm transition-all ${isAvailable ? "bg-green-500/10 text-green-400 border border-green-500/20 hover:bg-green-500/20" : "bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20"}`}>
+        <button onClick={toggleAvailability} className={`flex items-center gap-2 px-6 py-2.5 rounded-full font-medium text-sm transition-all hover:scale-105 ${isAvailable ? "bg-green-500/10 text-green-400 border border-green-500/20 hover:bg-green-500/20" : "bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20"}`}>
           <span className={`w-2.5 h-2.5 rounded-full ${isAvailable ? "bg-green-400" : "bg-red-400"}`} />
           {isAvailable ? "Online" : "Offline"}
         </button>
@@ -67,7 +67,7 @@ export default function DriverDashboard() {
       <div className="grid lg:grid-cols-5 gap-6">
         <div className="lg:col-span-3 space-y-6">
           {isAvailable && !isOnTrip && !isOnDelivery && (
-            <div className="glass-card rounded-2xl p-8 text-center">
+            <div className="glass-card rounded-2xl p-8 text-center animate-fade-in-up stagger-1 transition-all duration-200 hover:-translate-y-1">
               <div className="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-4"><span className="text-3xl">&#128663;</span></div>
               <h3 className="text-lg font-semibold text-white">Waiting for ride requests...</h3>
               <p className="text-sm text-gray-400 mt-1">New trips and deliveries will appear here</p>
@@ -75,24 +75,24 @@ export default function DriverDashboard() {
           )}
 
           {isOnTrip && activeTrip && (
-            <div className="space-y-4">
+            <div className="space-y-4 animate-fade-in-up stagger-1">
               <LiveTracker trip={activeTrip} />
-              {activeTrip.status === "ACCEPTED" && <button onClick={handleStartTrip} className="w-full py-3 gradient-btn">Start Trip</button>}
-              {activeTrip.status === "STARTED" && <button onClick={handleCompleteTrip} className="w-full py-3 gradient-btn">Complete Trip</button>}
+              {activeTrip.status === "ACCEPTED" && <button onClick={handleStartTrip} className="w-full py-3 gradient-btn hover:scale-105 transition-transform">Start Trip</button>}
+              {activeTrip.status === "STARTED" && <button onClick={handleCompleteTrip} className="w-full py-3 gradient-btn hover:scale-105 transition-transform">Complete Trip</button>}
             </div>
           )}
 
-          {isOnDelivery && activeDelivery && <div className="space-y-4"><LiveTracker delivery={activeDelivery} /></div>}
+          {isOnDelivery && activeDelivery && <div className="space-y-4 animate-fade-in-up stagger-1"><LiveTracker delivery={activeDelivery} /></div>}
 
           {!isOnTrip && !isOnDelivery && pendingRequests.length > 0 && (
-            <div>
+            <div className="animate-fade-in-up stagger-2">
               <h3 className="text-lg font-bold text-white mb-3">Pending Ride Requests</h3>
               <div className="space-y-3">{pendingRequests.map((trip: TripData) => <RideCard key={trip.id} trip={trip} onAction={() => handleAcceptTrip(trip)} />)}</div>
             </div>
           )}
 
           {!isOnTrip && !isOnDelivery && pendingDeliveries.length > 0 && (
-            <div>
+            <div className="animate-fade-in-up stagger-3">
               <h3 className="text-lg font-bold text-white mb-3">Pending Deliveries</h3>
               <div className="space-y-3">{pendingDeliveries.map((delivery: DeliveryData) => <DeliveryCard key={delivery.id} delivery={delivery} role="DRIVER" onAction={() => handleAcceptDelivery(delivery)} />)}</div>
             </div>

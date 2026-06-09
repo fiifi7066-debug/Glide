@@ -16,9 +16,16 @@ body {
 ::-webkit-scrollbar-thumb:hover { background: #475569; }
 
 @layer components {
-  .glass-card { @apply bg-dark-card/80 backdrop-blur-xl border border-dark-border/50 shadow-xl; }
+  .glass-card { @apply bg-dark-card/80 backdrop-blur-xl border border-dark-border/50 shadow-xl hover:border-blue-500/30 transition-all duration-300; }
   .glass-nav { @apply bg-dark-lighter/80 backdrop-blur-xl border-b border-dark-border/30; }
   .gradient-text { @apply bg-gradient-to-r from-blue-400 to-sky-300 bg-clip-text text-transparent; }
-  .gradient-btn { @apply bg-gradient-to-r from-blue-600 to-sky-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-blue-500/25 transition-all disabled:opacity-70; }
-  .input-dark { @apply w-full px-4 py-3 bg-dark-card border border-dark-border rounded-xl text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all text-sm; }
+  .gradient-btn { @apply bg-gradient-to-r from-blue-600 to-sky-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-blue-500/25 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 disabled:opacity-70; }
+  .input-dark { @apply w-full px-4 py-3 bg-dark-card border border-dark-border rounded-xl text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 focus:scale-[1.01] transition-all duration-200 text-sm; }
+}
+
+@layer utilities {
+  .stagger-1 { animation-delay: 0.1s; }
+  .stagger-2 { animation-delay: 0.2s; }
+  .stagger-3 { animation-delay: 0.3s; }
+  .stagger-4 { animation-delay: 0.4s; }
 }

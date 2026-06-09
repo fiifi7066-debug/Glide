@@ -49,36 +49,36 @@ export default function DeliveryPage() {
 
       <div className="grid lg:grid-cols-5 gap-6">
         <div className="lg:col-span-2 space-y-6">
-          {!isDriver && !isActiveDelivery && !searching && <DeliveryForm onRequestDelivery={handleRequestDelivery} />}
+          {!isDriver && !isActiveDelivery && !searching && <div className="animate-fade-in-up stagger-1"><DeliveryForm onRequestDelivery={handleRequestDelivery} /></div>}
 
           {searching && !isActiveDelivery && (
-            <div className="glass-card rounded-2xl p-8 text-center">
+            <div className="glass-card rounded-2xl p-8 text-center animate-fade-in-up stagger-1 transition-all duration-200 hover:-translate-y-1">
               <div className="animate-spin w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-white">Searching for a driver...</h3>
               <p className="text-sm text-gray-400 mt-1">Please wait while we find a nearby driver</p>
             </div>
           )}
 
-          {isActiveDelivery && <LiveTracker delivery={activeDelivery} />}
+          {isActiveDelivery && <div className="animate-fade-in-up stagger-2"><LiveTracker delivery={activeDelivery} /></div>}
 
           {activeDelivery?.status === "DELIVERED" && (
-            <div className="glass-card rounded-2xl p-6 text-center">
+            <div className="glass-card rounded-2xl p-6 text-center animate-fade-in-up stagger-3 transition-all duration-200 hover:-translate-y-1">
               <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-3"><span className="text-3xl text-green-400">&#10003;</span></div>
               <h3 className="text-lg font-bold text-white">Package Delivered!</h3>
               <p className="text-sm text-gray-400">Your package has been delivered successfully</p>
-              <button onClick={() => setActiveDelivery(null)} className="mt-4 px-6 py-2.5 gradient-btn text-sm">Send Another Package</button>
+              <button onClick={() => setActiveDelivery(null)} className="mt-4 px-6 py-2.5 gradient-btn text-sm hover:scale-105 transition-transform">Send Another Package</button>
             </div>
           )}
 
           {isDriver && pendingDeliveries.length > 0 && !isActiveDelivery && (
-            <div>
+            <div className="animate-fade-in-up stagger-2">
               <h3 className="text-lg font-bold text-white mb-3">Available Deliveries</h3>
               <div className="space-y-3">{pendingDeliveries.map((delivery: DeliveryData) => <DeliveryCard key={delivery.id} delivery={delivery} role="DRIVER" onAction={() => handleAcceptDelivery(delivery)} />)}</div>
             </div>
           )}
 
           {isDriver && pendingDeliveries.length === 0 && !isActiveDelivery && (
-            <div className="glass-card rounded-2xl p-8 text-center">
+            <div className="glass-card rounded-2xl p-8 text-center animate-fade-in-up stagger-3 transition-all duration-200 hover:-translate-y-1">
               <div className="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-4"><span className="text-3xl">&#128230;</span></div>
               <h3 className="text-lg font-semibold text-white">No delivery requests</h3>
               <p className="text-sm text-gray-400 mt-1">Check back later for new delivery opportunities</p>

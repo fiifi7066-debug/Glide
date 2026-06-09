@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { FiArrowRight, FiChevronDown, FiMapPin, FiZap, FiCreditCard, FiPackage, FiStar, FiUsers } from "react-icons/fi"
+import { FiArrowRight, FiChevronDown, FiMapPin, FiZap, FiCreditCard, FiPackage, FiStar } from "react-icons/fi"
 
 const FEATURES = [
   { icon: FiMapPin, title: "Real-time GPS Tracking", desc: "Track your ride or delivery in real-time with live GPS updates" },
@@ -41,28 +41,22 @@ export default function LandingPage() {
         </div>
         <div className="absolute inset-0" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, rgba(59,130,246,0.15) 1px, transparent 0)", backgroundSize: "50px 50px" }} />
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center animate-fade-in">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-400 text-sm font-medium mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-400 text-sm font-medium mb-6 animate-slide-down">
             <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" />
             Now available in Accra
           </div>
-          <h1 className="text-5xl md:text-7xl font-extrabold leading-tight mb-6">
+          <h1 className="text-5xl md:text-7xl font-extrabold leading-tight mb-6 animate-fade-in-up">
             <span className="text-white">Your Ride,</span>
             <span className="block gradient-text">Your Way.</span>
           </h1>
-          <p className="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl mx-auto animate-fade-in">
             Fast, reliable rides and deliveries at your fingertips
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href="/register"
-              className="group px-8 py-4 gradient-btn rounded-full text-lg inline-flex items-center gap-2 hover:scale-105 transition-all"
-            >
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up stagger-3">
+            <Link href="/register" className="group px-8 py-4 gradient-btn rounded-full text-lg inline-flex items-center gap-2 hover:scale-105 transition-all">
               Get Started <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
             </Link>
-            <a
-              href="#features"
-              className="px-8 py-4 border border-gray-700 text-gray-300 font-semibold rounded-full text-lg hover:bg-white/5 transition-all inline-flex items-center gap-2"
-            >
+            <a href="#features" className="px-8 py-4 border border-gray-700 text-gray-300 font-semibold rounded-full text-lg hover:bg-white/5 transition-all inline-flex items-center gap-2 animate-bounce-gentle">
               Learn More <FiChevronDown className="animate-bounce" />
             </a>
           </div>
@@ -74,10 +68,10 @@ export default function LandingPage() {
 
       {/* Stats */}
       <section className="relative">
-        <div className="max-w-6xl mx-auto px-4 -mt-16 relative z-10">
-          <div className="glass-card rounded-2xl grid grid-cols-2 md:grid-cols-4 gap-8 p-8">
+        <div className="max-w-6xl mx-auto px-4 -mt-16 relative z-10 animate-fade-in-up">
+          <div className="glass-card rounded-2xl grid grid-cols-2 md:grid-cols-4 gap-8 p-8 hover:animate-glow-blue">
             {STATS.map((stat, i) => (
-              <div key={stat.label} className={`text-center ${i < 3 ? "border-r border-dark-border/50" : ""}`}>
+              <div key={stat.label} className={`text-center animate-fade-in stagger-${i + 1} ${i < 3 ? "border-r border-dark-border/50" : ""}`}>
                 <p className="text-3xl md:text-4xl font-extrabold gradient-text">{stat.value}</p>
                 <p className="text-sm text-gray-400 mt-1">{stat.label}</p>
               </div>
@@ -89,20 +83,16 @@ export default function LandingPage() {
       {/* Features */}
       <section id="features" className="py-24">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center mb-16 animate-slide-up">
+          <div className="text-center mb-16 animate-fade-in-up">
             <span className="text-blue-400 text-sm font-medium tracking-widest uppercase">Features</span>
             <h2 className="text-3xl md:text-4xl font-bold text-white mt-2">Why Choose Glide?</h2>
             <p className="text-gray-400 mt-3 max-w-xl mx-auto">Everything you need for seamless urban transportation</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {FEATURES.map((f, i) => (
-              <div
-                key={f.title}
-                className="glass-card rounded-2xl p-6 hover:border-blue-500/30 transition-all hover:-translate-y-1 group"
-                style={{ animationDelay: `${i * 100}ms` }}
-              >
-                <div className="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-500/20 transition-colors">
-                  <f.icon size={24} className="text-blue-400" />
+              <div key={f.title} className={`glass-card rounded-2xl p-6 hover:-translate-y-2 group animate-fade-in-up stagger-${i + 1}`}>
+                <div className="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-500/20 group-hover:scale-110 transition-all duration-300">
+                  <f.icon size={24} className="text-blue-400 group-hover:rotate-6 transition-transform duration-300" />
                 </div>
                 <h3 className="text-lg font-bold text-white mb-2">{f.title}</h3>
                 <p className="text-sm text-gray-400">{f.desc}</p>
@@ -116,15 +106,15 @@ export default function LandingPage() {
       <section className="py-24 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-500/5 to-transparent" />
         <div className="max-w-6xl mx-auto px-4 relative">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 animate-fade-in-up">
             <span className="text-blue-400 text-sm font-medium tracking-widest uppercase">Process</span>
             <h2 className="text-3xl md:text-4xl font-bold text-white mt-2">How It Works</h2>
             <p className="text-gray-400 mt-3 max-w-xl mx-auto">Three simple steps to get moving</p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
-            {STEPS.map((step) => (
-              <div key={step.num} className="text-center relative">
-                <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-sky-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-blue-500/25 animate-float">
+            {STEPS.map((step, i) => (
+              <div key={step.num} className={`text-center relative animate-fade-in-up stagger-${i + 1}`}>
+                <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-sky-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-blue-500/25 animate-float" style={{ animationDelay: `${i * 0.5}s` }}>
                   <span className="text-3xl">{step.icon}</span>
                 </div>
                 <span className="text-sm font-bold text-blue-400 tracking-widest">{step.num}</span>
@@ -139,14 +129,14 @@ export default function LandingPage() {
       {/* Testimonials */}
       <section className="py-24">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 animate-fade-in-up">
             <span className="text-blue-400 text-sm font-medium tracking-widest uppercase">Testimonials</span>
             <h2 className="text-3xl md:text-4xl font-bold text-white mt-2">What People Say</h2>
             <p className="text-gray-400 mt-3 max-w-xl mx-auto">Trusted by thousands of riders and drivers</p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
-            {TESTIMONIALS.map((t) => (
-              <div key={t.name} className="glass-card rounded-2xl p-6 hover:border-blue-500/20 transition-all">
+            {TESTIMONIALS.map((t, i) => (
+              <div key={t.name} className={`glass-card rounded-2xl p-6 hover:-translate-y-1 animate-fade-in-up stagger-${i + 1}`}>
                 <div className="flex items-center gap-1 mb-4">
                   {Array.from({ length: t.rating }).map((_, i) => (
                     <FiStar key={i} size={16} className="text-yellow-500 fill-yellow-500" />
@@ -171,13 +161,10 @@ export default function LandingPage() {
       {/* CTA */}
       <section className="py-24 relative">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-sky-500/10 to-blue-600/20" />
-        <div className="max-w-4xl mx-auto px-4 text-center relative">
+        <div className="max-w-4xl mx-auto px-4 text-center relative animate-fade-in-up">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Ready to Glide?</h2>
           <p className="text-gray-400 text-lg mb-8">Join thousands of happy riders and drivers today</p>
-          <Link
-            href="/register"
-            className="group inline-flex items-center gap-2 px-10 py-4 gradient-btn rounded-full text-lg hover:scale-105 transition-all"
-          >
+          <Link href="/register" className="group inline-flex items-center gap-2 px-10 py-4 gradient-btn rounded-full text-lg hover:scale-105 transition-all">
             Get Started Free <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
@@ -201,7 +188,7 @@ export default function LandingPage() {
                 <ul className="space-y-2 text-sm">
                   {section.links.map((link) => (
                     <li key={link.label}>
-                      <Link href={link.href} className="text-gray-500 hover:text-blue-400 transition-colors">{link.label}</Link>
+                      <Link href={link.href} className="text-gray-500 hover:text-blue-400 transition-colors hover:translate-x-1 inline-block">{link.label}</Link>
                     </li>
                   ))}
                 </ul>

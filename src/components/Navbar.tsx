@@ -32,13 +32,13 @@ export default function Navbar() {
               <>
                 <Link
                   href="/login"
-                  className="px-5 py-2 text-sm font-medium text-gray-300 hover:text-blue-400 transition-colors"
+                  className="px-5 py-2 text-sm font-medium text-gray-300 hover:text-blue-400 transition-colors hover:scale-105 transition-transform"
                 >
                   Login
                 </Link>
                 <Link
                   href="/register"
-                  className="px-5 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-sky-500 rounded-full hover:shadow-lg hover:shadow-blue-500/25 transition-all"
+                  className="px-5 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-sky-500 rounded-full hover:shadow-lg hover:shadow-blue-500/25 transition-all hover:scale-105"
                 >
                   Register
                 </Link>
@@ -47,33 +47,33 @@ export default function Navbar() {
               <>
                 <Link
                   href={user.role === "DRIVER" ? "/driver" : "/rider"}
-                  className="flex items-center gap-1.5 text-sm text-gray-300 hover:text-blue-400 transition-colors"
+                  className="flex items-center gap-1.5 text-sm text-gray-300 hover:text-blue-400 transition-colors hover:-translate-y-0.5"
                 >
                   <FiHome size={16} />
                   Dashboard
                 </Link>
                 <Link
                   href="/history"
-                  className="flex items-center gap-1.5 text-sm text-gray-300 hover:text-blue-400 transition-colors"
+                  className="flex items-center gap-1.5 text-sm text-gray-300 hover:text-blue-400 transition-colors hover:-translate-y-0.5"
                 >
                   <FiClock size={16} />
                   History
                 </Link>
                 <Link
                   href="/profile"
-                  className="flex items-center gap-1.5 text-sm text-gray-300 hover:text-blue-400 transition-colors"
+                  className="flex items-center gap-1.5 text-sm text-gray-300 hover:text-blue-400 transition-colors hover:-translate-y-0.5"
                 >
                   <FiUser size={16} />
                   Profile
                 </Link>
-                <span className="flex items-center gap-2 px-3 py-1.5 bg-blue-500/10 text-blue-400 rounded-full text-sm font-medium border border-blue-500/20">
+                <span className="flex items-center gap-2 px-3 py-1.5 bg-blue-500/10 text-blue-400 rounded-full text-sm font-medium border border-blue-500/20 transition-all duration-200 hover:scale-105">
                   <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
                   {user.name}
                   <span className="text-xs bg-blue-600 text-white px-1.5 py-0.5 rounded-full">{user.role}</span>
                 </span>
                 <button
                   onClick={handleLogout}
-                  className="flex items-center gap-1.5 px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 rounded-xl transition-colors"
+                  className="flex items-center gap-1.5 px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 rounded-xl transition-colors hover:scale-105 transition-transform"
                 >
                   <FiLogOut size={16} />
                   Logout
@@ -83,7 +83,7 @@ export default function Navbar() {
           </div>
 
           <button
-            className="md:hidden p-2 rounded-lg hover:bg-gray-700 transition-colors text-gray-300"
+            className="md:hidden p-2 rounded-lg hover:bg-gray-700 transition-colors text-gray-300 hover:scale-110 transition-transform"
             onClick={() => setMobileOpen(!mobileOpen)}
           >
             {mobileOpen ? <FiX size={24} /> : <FiMenu size={24} />}
@@ -92,15 +92,15 @@ export default function Navbar() {
       </div>
 
       {mobileOpen && (
-        <div className="md:hidden bg-dark-card border-t border-dark-border px-4 py-4 space-y-3">
+        <div className="md:hidden bg-dark-card border-t border-dark-border px-4 py-4 space-y-3 animate-fade-in-down">
           {!user ? (
             <>
-              <Link href="/login" className="block px-4 py-2 text-gray-300 hover:bg-dark-border rounded-xl" onClick={() => setMobileOpen(false)}>Login</Link>
-              <Link href="/register" className="block px-4 py-2 text-white bg-gradient-to-r from-blue-600 to-sky-500 rounded-xl text-center" onClick={() => setMobileOpen(false)}>Register</Link>
+              <Link href="/login" className="block px-4 py-2 text-gray-300 hover:bg-dark-border rounded-xl transition-all hover:scale-[1.02]" onClick={() => setMobileOpen(false)}>Login</Link>
+              <Link href="/register" className="block px-4 py-2 text-white bg-gradient-to-r from-blue-600 to-sky-500 rounded-xl text-center transition-all hover:scale-[1.02]" onClick={() => setMobileOpen(false)}>Register</Link>
             </>
           ) : (
             <>
-              <div className="flex items-center gap-3 px-4 py-3 bg-dark-border/50 rounded-xl">
+              <div className="flex items-center gap-3 px-4 py-3 bg-dark-border/50 rounded-xl transition-all duration-200 hover:scale-[1.02]">
                 <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-sky-500 rounded-full flex items-center justify-center text-white font-bold">
                   {user.name.charAt(0)}
                 </div>
@@ -109,10 +109,10 @@ export default function Navbar() {
                   <p className="text-xs text-gray-400">{user.role}</p>
                 </div>
               </div>
-              <Link href={user.role === "DRIVER" ? "/driver" : "/rider"} className="flex items-center gap-3 px-4 py-2 text-gray-300 hover:bg-dark-border rounded-xl" onClick={() => setMobileOpen(false)}><FiHome size={18} /> Dashboard</Link>
-              <Link href="/history" className="flex items-center gap-3 px-4 py-2 text-gray-300 hover:bg-dark-border rounded-xl" onClick={() => setMobileOpen(false)}><FiClock size={18} /> History</Link>
-              <Link href="/profile" className="flex items-center gap-3 px-4 py-2 text-gray-300 hover:bg-dark-border rounded-xl" onClick={() => setMobileOpen(false)}><FiUser size={18} /> Profile</Link>
-              <button onClick={() => { handleLogout(); setMobileOpen(false) }} className="flex items-center gap-3 px-4 py-2 text-red-400 hover:bg-red-500/10 rounded-xl w-full"><FiLogOut size={18} /> Logout</button>
+              <Link href={user.role === "DRIVER" ? "/driver" : "/rider"} className="flex items-center gap-3 px-4 py-2 text-gray-300 hover:bg-dark-border rounded-xl transition-all hover:-translate-y-0.5" onClick={() => setMobileOpen(false)}><FiHome size={18} /> Dashboard</Link>
+              <Link href="/history" className="flex items-center gap-3 px-4 py-2 text-gray-300 hover:bg-dark-border rounded-xl transition-all hover:-translate-y-0.5" onClick={() => setMobileOpen(false)}><FiClock size={18} /> History</Link>
+              <Link href="/profile" className="flex items-center gap-3 px-4 py-2 text-gray-300 hover:bg-dark-border rounded-xl transition-all hover:-translate-y-0.5" onClick={() => setMobileOpen(false)}><FiUser size={18} /> Profile</Link>
+              <button onClick={() => { handleLogout(); setMobileOpen(false) }} className="flex items-center gap-3 px-4 py-2 text-red-400 hover:bg-red-500/10 rounded-xl w-full transition-all hover:scale-[1.02]"><FiLogOut size={18} /> Logout</button>
             </>
           )}
         </div>

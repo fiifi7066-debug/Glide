@@ -59,12 +59,12 @@ export default function ProfilePage() {
 
       <div className="grid md:grid-cols-3 gap-6">
         <div className="md:col-span-1">
-          <div className="glass-card rounded-2xl p-6 text-center">
+          <div className="glass-card rounded-2xl p-6 text-center animate-fade-in-up stagger-1 transition-all duration-200 hover:-translate-y-1">
             <div className="relative inline-block">
               <div className="w-24 h-24 bg-gradient-to-br from-blue-600 to-sky-500 rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto">
                 {user.name.charAt(0).toUpperCase()}
               </div>
-              <button className="absolute bottom-0 right-0 w-8 h-8 bg-dark-card rounded-full shadow flex items-center justify-center border border-dark-border hover:bg-dark-border transition-colors">
+              <button className="absolute bottom-0 right-0 w-8 h-8 bg-dark-card rounded-full shadow flex items-center justify-center border border-dark-border hover:bg-dark-border transition-colors hover:scale-105 transition-transform">
                 <FiCamera size={14} className="text-gray-400" />
               </button>
             </div>
@@ -94,10 +94,10 @@ export default function ProfilePage() {
             </div>
           )}
 
-          <div className="glass-card rounded-2xl p-6">
+          <div className="glass-card rounded-2xl p-6 animate-fade-in-up stagger-2 transition-all duration-200 hover:-translate-y-1">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-white">Personal Information</h3>
-              <button onClick={() => (editing ? handleSave() : setEditing(true))} className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-blue-400 bg-blue-500/10 rounded-xl hover:bg-blue-500/20 transition-colors" disabled={saving}>
+              <button onClick={() => (editing ? handleSave() : setEditing(true))} className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-blue-400 bg-blue-500/10 rounded-xl hover:bg-blue-500/20 transition-colors hover:scale-105 transition-transform" disabled={saving}>
                 {editing ? <>{saving ? "Saving..." : <><FiSave size={16} /> Save</>}</> : <><FiEdit2 size={16} /> Edit</>}
               </button>
             </div>
@@ -113,7 +113,7 @@ export default function ProfilePage() {
           </div>
 
           {user.role === "DRIVER" && (
-            <div className="glass-card rounded-2xl p-6">
+            <div className="glass-card rounded-2xl p-6 animate-fade-in-up stagger-3 transition-all duration-200 hover:-translate-y-1">
               <h3 className="text-lg font-bold text-white mb-4">Vehicle &amp; License</h3>
               <div className="grid sm:grid-cols-2 gap-4">
                 {["licenseNumber", "vehicleModel", "vehicleColor", "licensePlate"].map((field) => (
@@ -128,20 +128,20 @@ export default function ProfilePage() {
           )}
 
           {user.role === "RIDER" && (
-            <div className="glass-card rounded-2xl p-6">
+            <div className="glass-card rounded-2xl p-6 animate-fade-in-up stagger-3 transition-all duration-200 hover:-translate-y-1">
               <h3 className="text-lg font-bold text-white mb-4">Payment Method</h3>
               <p className="text-sm text-gray-400">No payment method saved yet.</p>
-              <button className="mt-3 px-4 py-2 text-sm font-medium text-blue-400 border border-blue-500/20 rounded-xl hover:bg-blue-500/10 transition-colors">Add Payment Method</button>
+              <button className="mt-3 px-4 py-2 text-sm font-medium text-blue-400 border border-blue-500/20 rounded-xl hover:bg-blue-500/10 transition-colors hover:scale-105 transition-transform">Add Payment Method</button>
             </div>
           )}
 
-          <div className="glass-card rounded-2xl p-6">
+          <div className="glass-card rounded-2xl p-6 animate-fade-in-up stagger-4 transition-all duration-200 hover:-translate-y-1">
             <h3 className="text-lg font-bold text-white mb-4">Change Password</h3>
             <div className="space-y-3">
               <input type="password" placeholder="Current password" className="input-dark" />
               <input type="password" placeholder="New password" className="input-dark" />
               <input type="password" placeholder="Confirm new password" className="input-dark" />
-              <button className="px-6 py-2.5 bg-dark-border text-gray-300 font-medium rounded-xl text-sm hover:bg-dark-border/80 transition-colors">Update Password</button>
+              <button className="px-6 py-2.5 bg-dark-border text-gray-300 font-medium rounded-xl text-sm hover:bg-dark-border/80 transition-colors hover:scale-105 transition-transform">Update Password</button>
             </div>
           </div>
         </div>
