@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import { FiEye, FiEyeOff } from "react-icons/fi"
 import { useStore } from "@/lib/store"
 
 export default function RegisterPage() {
@@ -10,6 +11,8 @@ export default function RegisterPage() {
   const { setUser } = useStore()
   const [role, setRole] = useState<"RIDER" | "DRIVER">("RIDER")
   const [form, setForm] = useState({ name: "", email: "", phone: "", password: "", confirmPassword: "", licenseNumber: "", vehicleModel: "", vehicleColor: "", licensePlate: "" })
+  const [showPw, setShowPw] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
 
@@ -57,8 +60,18 @@ export default function RegisterPage() {
             <input type="text" placeholder="Full Name" value={form.name} onChange={(e) => updateField("name", e.target.value)} className="input-dark" />
             <input type="email" placeholder="Email address" value={form.email} onChange={(e) => updateField("email", e.target.value)} className="input-dark" />
             <input type="tel" placeholder="Phone number" value={form.phone} onChange={(e) => updateField("phone", e.target.value)} className="input-dark" />
-            <input type="password" placeholder="Password (min 6 characters)" value={form.password} onChange={(e) => updateField("password", e.target.value)} className="input-dark" />
-            <input type="password" placeholder="Confirm password" value={form.confirmPassword} onChange={(e) => updateField("confirmPassword", e.target.value)} className="input-dark" />
+            <div className="relative">
+              <input type={showPw ? "text" : "password"} placeholder="Password (min 6 characters)" value={form.password} onChange={(e) => updateField("password", e.target.value)} className="input-dark pr-12" />
+              <button type="button" onClick={() => setShowPw(!showPw)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300">
+                {showPw ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+              </button>
+            </div>
+            <div className="relative">
+              <input type={showConfirm ? "text" : "password"} placeholder="Confirm password" value={form.confirmPassword} onChange={(e) => updateField("confirmPassword", e.target.value)} className="input-dark pr-12" />
+              <button type="button" onClick={() => setShowConfirm(!showConfirm)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300">
+                {showConfirm ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+              </button>
+            </div>
 
             {role === "DRIVER" && (
               <>
